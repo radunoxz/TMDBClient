@@ -2,6 +2,9 @@ package com.example.tmdbclient.data.repository.artist
 
 import android.util.Log
 import com.example.tmdbclient.data.model.artist.Artist
+import com.example.tmdbclient.data.repository.artist.datasourceImpl.ArtistCacheDataSourceImpl
+import com.example.tmdbclient.data.repository.artist.datasourceImpl.ArtistLocalDataSourceImpl
+import com.example.tmdbclient.data.repository.artist.datasourceImpl.ArtistRemoteDataSourceImpl
 import com.example.tmdbclient.domain.repository.ArtistRepository
 import java.lang.Exception
 

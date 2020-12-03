@@ -1,6 +1,7 @@
-package com.example.tmdbclient.data.repository.tvshow
+package com.example.tmdbclient.data.repository.tvshow.datasourceImpl
 
 import com.example.tmdbclient.data.model.tv.TvShow
+import com.example.tmdbclient.data.repository.tvshow.datasource.TvShowCacheDataSource
 
 /**
  * This class is a implementation of the Cache Data Source

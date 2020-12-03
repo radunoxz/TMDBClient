@@ -2,6 +2,9 @@ package com.example.tmdbclient.data.repository.movie
 
 import android.util.Log
 import com.example.tmdbclient.data.model.movie.Movie
+import com.example.tmdbclient.data.repository.movie.datasource.MovieCacheDataSource
+import com.example.tmdbclient.data.repository.movie.datasource.MovieLocalDataSource
+import com.example.tmdbclient.data.repository.movie.datasource.MovieRemoteDataSource
 import com.example.tmdbclient.domain.repository.MovieRepository
 import java.lang.Exception
 

@@ -2,16 +2,15 @@ package com.example.tmdbclient.data.repository.tvshow
 
 import android.util.Log
 import com.example.tmdbclient.data.model.tv.TvShow
-import com.example.tmdbclient.data.repository.tvshow.datasourceImpl.TvShowCacheDataSourceImpl
-import com.example.tmdbclient.data.repository.tvshow.datasourceImpl.TvShowLocalDataSourceImpl
-import com.example.tmdbclient.data.repository.tvshow.datasourceImpl.TvShowRemoteDataSourceImpl
+import com.example.tmdbclient.data.repository.tvshow.datasource.TvShowCacheDataSource
+import com.example.tmdbclient.data.repository.tvshow.datasource.TvShowLocalDataSource
+import com.example.tmdbclient.data.repository.tvshow.datasource.TvShowRemoteDataSource
 import com.example.tmdbclient.domain.repository.TvShowRepository
-import java.lang.Exception
 
 class TvShowRepositoryImpl(
-    private val remoteDataSource: TvShowRemoteDataSourceImpl,
-    private val localDataSource: TvShowLocalDataSourceImpl,
-    private val cachedDataSource: TvShowCacheDataSourceImpl
+    private val remoteDataSource: TvShowRemoteDataSource,
+    private val localDataSource: TvShowLocalDataSource,
+    private val cachedDataSource: TvShowCacheDataSource
 ) : TvShowRepository {
     override suspend fun getTvShows(): List<TvShow>? = getTvShowsFromCache()
 
@@ -60,14 +59,15 @@ class TvShowRepositoryImpl(
         lateinit var tvShowsList: List<TvShow>
         try {
             tvShowsList = cachedDataSource.getTvShowsFromCache()
-            if (tvShowsList.isNotEmpty()) {
-                return tvShowsList
-            } else {
-                tvShowsList = getTvShowsFromLocal()
-                cachedDataSource.saveTvShowsToCache(tvShowsList)
-            }
+
         } catch (exception: Exception) {
             Log.e("MYTAG", exception.message.toString())
+        }
+        if (tvShowsList.isNotEmpty()) {
+            return tvShowsList
+        } else {
+            tvShowsList = getTvShowsFromLocal()
+            cachedDataSource.saveTvShowsToCache(tvShowsList)
         }
 
         return tvShowsList

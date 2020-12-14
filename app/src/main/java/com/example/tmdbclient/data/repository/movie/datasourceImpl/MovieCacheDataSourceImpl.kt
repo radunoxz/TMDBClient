@@ -10,9 +10,9 @@ import java.util.ArrayList
 class MovieCacheDataSourceImpl : MovieCacheDataSource {
     private var moviesList = ArrayList<Movie>()
 
-    override suspend fun getMoviesFromCache(): List<Movie> = moviesList
+    override fun getMoviesFromCache(): List<Movie> = moviesList
 
-    override suspend fun saveMoviesToCache(movies: List<Movie>) {
+    override fun saveMoviesToCache(movies: List<Movie>) {
         moviesList.clear()
         moviesList = ArrayList(movies)
     }

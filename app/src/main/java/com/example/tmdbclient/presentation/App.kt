@@ -18,7 +18,6 @@ class App : Application(), Injector {
             .netModule(NetModule(BuildConfig.BASE_URL))
             .remoteDataModule(RemoteDataModule(BuildConfig.API_KEY))
             .build()
-
     }
 
     override fun createMovieSubComponent(): MovieSubComponent =

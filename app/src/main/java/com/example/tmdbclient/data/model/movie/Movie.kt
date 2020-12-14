@@ -18,4 +18,6 @@ data class Movie(
     val releaseDate: String,
     @SerializedName("title")
     val title: String,
+    @SerializedName("review")
+    val review: String,
 )

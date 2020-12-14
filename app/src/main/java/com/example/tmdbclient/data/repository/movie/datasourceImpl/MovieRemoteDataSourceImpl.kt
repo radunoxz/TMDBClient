@@ -2,8 +2,10 @@ package com.example.tmdbclient.data.repository.movie.datasourceImpl
 
 import com.example.tmdbclient.data.api.TMDBService
 import com.example.tmdbclient.data.model.movie.MovieList
+import com.example.tmdbclient.data.model.review.Review
 import com.example.tmdbclient.data.repository.movie.datasource.MovieRemoteDataSource
-import retrofit2.Response
+import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * This class is a implementation of the Remote Data Source
@@ -12,9 +14,11 @@ import retrofit2.Response
 class MovieRemoteDataSourceImpl(
     private val tmdbService: TMDBService,
     private val apiKey: String
-    ) : MovieRemoteDataSource {
+) : MovieRemoteDataSource {
 
-    override suspend fun getMovies(): Response<MovieList> =
+    override fun getMovies(): Observable<MovieList> =
         tmdbService.getPopularMovies(apiKey)
 
+    override fun getReviews(movieId: String): Single<Review> =
+        tmdbService.getReviews(apiKey, movieId)
 }

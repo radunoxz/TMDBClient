@@ -1,17 +1,16 @@
 package com.example.tmdbclient.presentation.movie
 
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.tmdbclient.R
 import com.example.tmdbclient.databinding.ActivityMovieBinding
 import com.example.tmdbclient.presentation.di.Injector
@@ -23,8 +22,11 @@ class MovieActivity : AppCompatActivity() {
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var binding: ActivityMovieBinding
     private lateinit var adapter: MovieAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.i("MYTAG", Thread.currentThread().id.toString())
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie)
         (application as Injector).createMovieSubComponent()
             .inject(this)
@@ -38,20 +40,23 @@ class MovieActivity : AppCompatActivity() {
         displayPopularMovies()
     }
 
+    @SuppressLint("CheckResult")
     private fun displayPopularMovies() {
         binding.movieProgressBar.visibility = View.VISIBLE
         movieViewModel = ViewModelProvider(this, factory).get(MovieViewModel::class.java)
-        val responseLiveData = movieViewModel.getMovies()
-        responseLiveData.observe(this, {
-            if (it != null) {
-                adapter.setList(it)
+        val responseObservable = movieViewModel.getMovies()
+        responseObservable.subscribe(
+            { movieList ->
+                adapter.setList(movieList)
                 adapter.notifyDataSetChanged()
-                binding.movieProgressBar.visibility = View.GONE
-            } else {
+                Log.i("MYTAG", Thread.currentThread().id.toString())
+            },
+            {
                 binding.movieProgressBar.visibility = View.GONE
                 Toast.makeText(applicationContext, "No data available", Toast.LENGTH_LONG).show()
-            }
-        })
+            },
+            { binding.movieProgressBar.visibility = View.GONE }
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -60,20 +65,20 @@ class MovieActivity : AppCompatActivity() {
         return true
     }
 
+    // TODO Complete this with Rx
+    @SuppressLint("CheckResult")
     private fun updateMovies() {
         binding.movieProgressBar.visibility = View.VISIBLE
         val response = movieViewModel.updateMovies()
-            response.observe(this, {
-            if (it != null) {
-                Log.i("MYTAG", it.toString())
-                adapter.setList(it)
+        response.subscribe(
+            { listMovies ->
+                adapter.setList(listMovies)
                 adapter.notifyDataSetChanged()
                 binding.movieProgressBar.visibility = View.GONE
-            } else {
-                binding.movieProgressBar.visibility = View.GONE
-            }
-        })
-
+                Log.i("MYTAG", Thread.currentThread().id.toString())
+            },
+            { e -> Log.i("MYTAG", e.toString()) },
+            { binding.movieProgressBar.visibility = View.GONE })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

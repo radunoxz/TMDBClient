@@ -50,10 +50,12 @@ class MovieActivity : AppCompatActivity() {
                 adapter.setList(movieList)
                 adapter.notifyDataSetChanged()
                 Log.i("MYTAG", Thread.currentThread().id.toString())
+                Log.i(MovieActivity::class.java.canonicalName, movieList.toString())
             },
             {
                 binding.movieProgressBar.visibility = View.GONE
                 Toast.makeText(applicationContext, "No data available", Toast.LENGTH_LONG).show()
+                Log.e("MYTAG 10", it.message.toString())
             },
             { binding.movieProgressBar.visibility = View.GONE }
         )

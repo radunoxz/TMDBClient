@@ -49,6 +49,10 @@ dependencies {
     def okhttp_version = "4.9.0"
     def glide_version = "4.11.0"
 
+    // UI
+    implementation "com.github.skydoves:landscapist-glide:1.1.1"
+
+
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     // LiveData
@@ -58,6 +62,7 @@ dependencies {
     // Annotation processor
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     // Room
+    implementation "androidx.room:room-rxjava2:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     // optional - Kotlin Extensions and Coroutines support for Room

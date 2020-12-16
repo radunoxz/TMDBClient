@@ -21,9 +21,9 @@ interface TMDBService {
     @GET("person/popular")
     suspend fun getPopularArtists(@Query("api_key") apiKey: String): Response<ArtistList>
 
-    @GET("/movie/{movie_id}/reviews")
+    @GET("movie/{movie_id}/reviews")
     fun getReviews(
-        @Query("api_key") apiKey: String,
-        @Path("movie_id") movieId : String
-    ): Single<Review>
+        @Path("movie_id") movieId : String,
+        @Query("api_key") apiKey: String
+    ): Observable<Review>
 }

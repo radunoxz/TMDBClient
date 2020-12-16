@@ -7,5 +7,5 @@ import io.reactivex.Single
 
 interface MovieRemoteDataSource {
     fun getMovies(): Observable<MovieList>
-    fun getReviews(movieId: String): Single<Review>
+    fun getReviews(movieId: String): Observable<Review>
 }

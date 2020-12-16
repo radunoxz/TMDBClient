@@ -19,6 +19,6 @@ class MovieRemoteDataSourceImpl(
     override fun getMovies(): Observable<MovieList> =
         tmdbService.getPopularMovies(apiKey)
 
-    override fun getReviews(movieId: String): Single<Review> =
-        tmdbService.getReviews(apiKey, movieId)
+    override fun getReviews(movieId: String): Observable<Review> =
+        tmdbService.getReviews(movieId, apiKey)
 }

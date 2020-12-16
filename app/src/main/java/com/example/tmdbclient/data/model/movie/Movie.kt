@@ -19,5 +19,5 @@ data class Movie(
     @SerializedName("title")
     val title: String,
     @SerializedName("review")
-    val review: String,
+    var review: String?,
 )

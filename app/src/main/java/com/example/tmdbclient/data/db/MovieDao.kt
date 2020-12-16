@@ -5,15 +5,18 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.tmdbclient.data.model.movie.Movie
+import io.reactivex.Flowable
+import io.reactivex.Observable
+
 
 @Dao
 interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-     fun saveMovies(movies: List<Movie>)
+    fun saveMovies(movies: List<Movie>)
 
     @Query("DELETE FROM popular_movies")
-     fun deleteAllMovies()
+    fun deleteAllMovies()
 
     @Query("SELECT * FROM popular_movies")
-    fun getMovies(): List<Movie>
+    fun getMovies(): Flowable<List<Movie>>
 }

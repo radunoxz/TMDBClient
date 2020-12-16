@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.tmdbclient.R
 import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.databinding.ListItemBinding
+import com.skydoves.landscapist.glide.GlideImage
 
 class MovieAdapter : RecyclerView.Adapter<MyViewHolder>() {
     private val movieList = ArrayList<Movie>()
@@ -38,6 +39,7 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
     fun bind(movie: Movie) {
         binding.titleTextView.text = movie.title
         binding.descriptionTextView.text = movie.overview
+        binding.reviewTextView.text = movie.review
         val posterUrl = "https://image.tmdb.org/t/p/w500/${movie.posterPath}"
         Glide.with(binding.imageView.context)
             .load(posterUrl)

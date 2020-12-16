@@ -8,5 +8,5 @@ import io.reactivex.Single
 interface MovieRepository {
     fun getMovies(): Observable<List<Movie>>
     fun updateMovies(): Observable<List<Movie>>
-    fun getReviews(movieId: String): Single<List<Review>>
+    fun getReviews(movieId: String): Observable<Review>
 }

@@ -9,7 +9,7 @@ data class Result(
     @SerializedName("author_details")
     val authorDetails: AuthorDetails,
     @SerializedName("content")
-    val content: String,
+    val content: String?,
     @SerializedName("created_at")
     val createdAt: String,
     @SerializedName("id")

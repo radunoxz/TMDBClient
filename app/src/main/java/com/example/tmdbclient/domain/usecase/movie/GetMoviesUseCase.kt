@@ -9,7 +9,7 @@ import io.reactivex.schedulers.Schedulers
 
 class GetMoviesUseCase(private val movieRepository: MovieRepository) {
     fun execute(): Observable<List<Movie>> =
-        movieRepository.getMovies().flatMapIterable { it }.flatMap { movie ->
+        movieRepository.getMovies().take(1).flatMapIterable { it }.flatMap { movie ->
             movieRepository.getReviews(movie.id.toString()).flatMap { review ->
                 movie.review = review.results.firstOrNull()?.content
                     ?: "This movie doesn't have a review"

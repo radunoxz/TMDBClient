@@ -11,6 +11,8 @@ import com.example.tmdbclient.domain.repository.MovieRepository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import org.reactivestreams.Publisher
+import org.reactivestreams.Subscriber
 import java.util.concurrent.Flow
 
 class MovieRepositoryImpl(
@@ -18,7 +20,7 @@ class MovieRepositoryImpl(
     private val localDataSource: MovieLocalDataSource,
     private val cacheDataSource: MovieCacheDataSource
 ) : MovieRepository {
-    override fun getMovies(): Observable<List<Movie>> = getMoviesFromDB().toObservable()
+    override fun getMovies(): Observable<List<Movie>> = getMoviesFromCache().toObservable()
 
     // TODO Remove suspend fun from datasource
     override fun updateMovies(): Observable<List<Movie>> = getMoviesFromAPI()
@@ -42,86 +44,46 @@ class MovieRepositoryImpl(
         }
 
     @SuppressLint("CheckResult")
-    private fun getMoviesFromDB(): Flowable<List<Movie>> {
-        Log.i("MYTAG", "getMoviesFromDB")
-        return localDataSource.getMovies().flatMap {
-            if (it.isNotEmpty()) {
-                Flowable.just(it)
-            }else {
-                getMoviesFromAPI().map {
-                    Log.i("MYTAG", it.toString())
-                    localDataSource.saveMoviesToDB(it)
-                    it
-                }.toFlowable(BackpressureStrategy.ERROR)
-//                Flowable.empty()
-            }
-        }
-
-//        lateinit var movieList: List<Movie>
-//        try {
-//            movieList = localDataSource.getMovies().flatMap {
-//                Flowable.fromIterable(movieList)
-//                it
-//            }
-//
-//        } catch (exception: Exception) {
-//            Log.e("MYTAG", exception.message.toString())
-//        }
-//        if (localDataSource.getMovies().) {
-//            return movieList
-//        } else {
-//            movieList = getMoviesFromAPI().toFlowable(BackpressureStrategy.BUFFER)
-//            getMoviesFromAPI().map { it ->
-//                localDataSource.saveMoviesToDB(it)
-//                it
-//            }
-//        }
-//
-//        return movieList
-    }
-
 //    private fun getMoviesFromDB(): Flowable<List<Movie>> {
 //        Log.i("MYTAG", "getMoviesFromDB")
 //        return localDataSource.getMovies().flatMap {
 //            if (it.isNotEmpty()) {
 //                Flowable.just(it)
 //            }else {
-//
-//                Flowable.empty()
-//            }
-//        }.switchIfEmpty {
-//            getMoviesFromAPI().map {
-//                Log.i("MYTAG", it.toString())
-//                localDataSource.saveMoviesToDB(it)
-//                it
+//                getMoviesFromAPI().map {
+//                    Log.i("MYTAG", it.toString())
+//                    localDataSource.saveMoviesToDB(it)
+//                    it
+//                }.toFlowable(BackpressureStrategy.ERROR)
 //            }
 //        }
 //    }
 
-
-//    private suspend fun getMoviesFromDB(): List<Movie> {
-//        lateinit var movieList: List<Movie>
-//        try {
-//            movieList = localDataSource.getMovies()
-//
-//        } catch (exception: Exception) {
-//            Log.e("MYTAG", exception.message.toString())
-//        }
-//        if (movieList.isNotEmpty()) {
-//            return movieList
-//        } else {
-//            movieList = getMoviesFromAPI()
-//            localDataSource.saveMoviesToDB(movieList)
-//        }
-//
-//        return movieList
-//    }
-//
-
-    private fun getMoviesFromCache(): Flowable<List<Movie>> =
-        cacheDataSource.getMoviesFromCache().switchIfEmpty {
-            getMoviesFromDB().map {
-                cacheDataSource.saveMoviesToCache(it)
+    private fun getMoviesFromDB(): Flowable<List<Movie>> {
+        Log.i("MYTAG", "getMoviesFromDB")
+        return localDataSource.getMovies().take(1).flatMap {
+            if (it.isNotEmpty()) {
+                Flowable.just(it)
+            }else {
+                Flowable.empty()
             }
-        }
+        }.switchIfEmpty(getMoviesFromAPI().map {
+                localDataSource.saveMoviesToDB(it)
+                it
+            }.toFlowable(BackpressureStrategy.ERROR))
+    }
+
+    private fun getMoviesFromCache(): Flowable<List<Movie>> {
+        return cacheDataSource.getMoviesFromCache().take(1).flatMap {
+            if (it.isNotEmpty()) {
+                Flowable.just(it)
+            }else {
+                Flowable.empty()
+            }
+        }.switchIfEmpty(getMoviesFromDB().map {
+            cacheDataSource.saveMoviesToCache(it)
+            it
+        })
+    }
+
 }

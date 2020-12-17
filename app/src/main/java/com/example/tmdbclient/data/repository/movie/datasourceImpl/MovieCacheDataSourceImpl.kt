@@ -4,21 +4,24 @@ import android.util.Log
 import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.data.repository.movie.datasource.MovieCacheDataSource
 import io.reactivex.Flowable
+import java.sql.Array
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * This class is an implementation of the Cache Data Source
  */
 class MovieCacheDataSourceImpl : MovieCacheDataSource {
-    private var moviesList = ArrayList<Movie>()
+    private var moviesList: MutableList<Movie> = ArrayList()
 
     override fun getMoviesFromCache(): Flowable<List<Movie>> {
         Log.i("DLT", moviesList.toString())
 
-        return Flowable.fromArray(moviesList)
+        return Flowable.just(moviesList)
     }
 
     override fun saveMoviesToCache(movies: List<Movie>) {
         moviesList.clear()
-        moviesList = ArrayList(movies)
+        moviesList.addAll(movies)
     }
 }

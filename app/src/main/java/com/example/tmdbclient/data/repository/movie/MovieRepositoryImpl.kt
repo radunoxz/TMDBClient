@@ -1,5 +1,6 @@
 package com.example.tmdbclient.data.repository.movie
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.data.model.review.Review
@@ -7,10 +8,10 @@ import com.example.tmdbclient.data.repository.movie.datasource.MovieCacheDataSou
 import com.example.tmdbclient.data.repository.movie.datasource.MovieLocalDataSource
 import com.example.tmdbclient.data.repository.movie.datasource.MovieRemoteDataSource
 import com.example.tmdbclient.domain.repository.MovieRepository
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.Flow
 
 class MovieRepositoryImpl(
     private val movieRemoteDataSource: MovieRemoteDataSource,
@@ -40,32 +41,62 @@ class MovieRepositoryImpl(
             list.movies
         }
 
+    @SuppressLint("CheckResult")
     private fun getMoviesFromDB(): Flowable<List<Movie>> {
         Log.i("MYTAG", "getMoviesFromDB")
-        return localDataSource.getMovies().switchIfEmpty {
-            getMoviesFromAPI().map {
-                Log.i("MYTAG", it.toString())
-//                localDataSource.saveMoviesToDB(it)
-                it
+        return localDataSource.getMovies().flatMap {
+            if (it.isNotEmpty()) {
+                Flowable.just(it)
+            }else {
+                getMoviesFromAPI().map {
+                    Log.i("MYTAG", it.toString())
+                    localDataSource.saveMoviesToDB(it)
+                    it
+                }.toFlowable(BackpressureStrategy.ERROR)
+//                Flowable.empty()
             }
         }
 
-//        lateinit var movieList: Flowable<List<Movie>>
+//        lateinit var movieList: List<Movie>
 //        try {
-//            movieList = localDataSource.getMovies()
+//            movieList = localDataSource.getMovies().flatMap {
+//                Flowable.fromIterable(movieList)
+//                it
+//            }
 //
 //        } catch (exception: Exception) {
 //            Log.e("MYTAG", exception.message.toString())
 //        }
-//        if (movieList.)) {
+//        if (localDataSource.getMovies().) {
 //            return movieList
 //        } else {
-//            movieList = getMoviesFromAPI()
-//            localDataSource.saveMoviesToDB(movieList)
+//            movieList = getMoviesFromAPI().toFlowable(BackpressureStrategy.BUFFER)
+//            getMoviesFromAPI().map { it ->
+//                localDataSource.saveMoviesToDB(it)
+//                it
+//            }
 //        }
 //
 //        return movieList
     }
+
+//    private fun getMoviesFromDB(): Flowable<List<Movie>> {
+//        Log.i("MYTAG", "getMoviesFromDB")
+//        return localDataSource.getMovies().flatMap {
+//            if (it.isNotEmpty()) {
+//                Flowable.just(it)
+//            }else {
+//
+//                Flowable.empty()
+//            }
+//        }.switchIfEmpty {
+//            getMoviesFromAPI().map {
+//                Log.i("MYTAG", it.toString())
+//                localDataSource.saveMoviesToDB(it)
+//                it
+//            }
+//        }
+//    }
 
 
 //    private suspend fun getMoviesFromDB(): List<Movie> {

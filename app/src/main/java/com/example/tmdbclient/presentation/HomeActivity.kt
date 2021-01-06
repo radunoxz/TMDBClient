@@ -1,31 +1,47 @@
 package com.example.tmdbclient.presentation
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.example.tmdbclient.R
 import com.example.tmdbclient.databinding.ActivityHomeBinding
-import com.example.tmdbclient.presentation.artist.ArtistActivity
-import com.example.tmdbclient.presentation.movie.MovieActivity
-import com.example.tmdbclient.presentation.tvshow.TvShowActivity
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        binding.movieButton.setOnClickListener {
-            val intent = Intent(this, MovieActivity::class.java)
-            startActivity(intent)
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
+
+        binding.bottomNavigation.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_home -> {
+                    openFragment(HomeFragment())
+                    true
+                }
+                R.id.nav_gallery -> {
+                    openFragment(GalleryFragment())
+                    true
+                }
+                R.id.nav_more -> {
+                    openFragment(MoreFragment())
+                    true
+                }
+                else -> false
+            }
         }
-        binding.tvButton.setOnClickListener {
-            val intent = Intent(this, TvShowActivity::class.java)
-            startActivity(intent)
-        }
-        binding.artistsButton.setOnClickListener {
-            val intent = Intent(this, ArtistActivity::class.java)
-            startActivity(intent)
-        }
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, fragment)
+            .addToBackStack(null).commit()
+
     }
 }

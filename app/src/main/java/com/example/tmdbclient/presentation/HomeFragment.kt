@@ -74,23 +74,5 @@ class HomeFragment : Fragment(), OnItemClickListener {
             }
             else -> return
         }
-
-
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        binding.movieButton.setOnClickListener {
-//            val intent = Intent(requireActivity(), MovieActivity::class.java)
-//            startActivity(intent)
-//        }
-//        binding.tvButton.setOnClickListener {
-//            val intent = Intent(requireActivity(), TvShowActivity::class.java)
-//            startActivity(intent)
-//        }
-//        binding.artistsButton.setOnClickListener {
-//            val intent = Intent(requireActivity(), ArtistActivity::class.java)
-//            startActivity(intent)
-//        }
-//    }
 }

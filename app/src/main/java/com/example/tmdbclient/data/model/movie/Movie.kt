@@ -20,4 +20,6 @@ data class Movie(
     val title: String,
     @SerializedName("review")
     var review: String?,
+    @SerializedName("vote_average")
+    var voteAverage: Float
 )

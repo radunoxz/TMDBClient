@@ -8,7 +8,7 @@ import com.example.tmdbclient.data.model.tv.TvShow
 
 @Database(
     entities = [Movie::class, Artist::class, TvShow::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class TMDBDatabase : RoomDatabase() {

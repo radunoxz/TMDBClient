@@ -3,6 +3,8 @@ package com.example.tmdbclient.presentation.movie
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.content.Context
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +15,10 @@ import com.example.tmdbclient.R
 import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.databinding.ListItemBinding
 
-class MovieAdapter(private val context: Context, private val onClickListener: OnItemClickListener) :
+class MovieAdapter(
+    private val context: Context,
+    private val onClickListener: OnItemClickListener,
+) :
     RecyclerView.Adapter<MyViewHolder>() {
     private val movieList = ArrayList<Movie>()
 
@@ -40,6 +45,11 @@ class MovieAdapter(private val context: Context, private val onClickListener: On
 }
 
 class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    companion object {
+        private const val TIMER_MULTIPLER = 3 * 1000L
+    }
+
     private lateinit var frontAnim: AnimatorSet
     private lateinit var backAnim: AnimatorSet
 
@@ -53,6 +63,7 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
         binding.titleTextViewFront.text = movie.title
         binding.descriptionTextViewFront.text = movie.overview
         binding.commentTextView.text = movie.review
+        binding.popProgress.popularityScore = movie.voteAverage
         val posterUrl = "https://image.tmdb.org/t/p/w500/${movie.posterPath}"
         Glide.with(binding.imageViewFront.context)
             .load(posterUrl)
@@ -62,6 +73,23 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
         binding.cardViewBack.setOnClickListener {
             itemClickListener.onItemCLicked(movie, binding.cardViewFront, binding.cardViewBack)
         }
+
+        object : CountDownTimer(TIMER_MULTIPLER, 1) {
+            override fun onTick(millisUntilFinished: Long) {
+                binding.popProgress.progress =
+                    (TIMER_MULTIPLER - millisUntilFinished).toFloat() / TIMER_MULTIPLER
+                binding.popProgress.progressText =
+                    movie.voteAverage * (TIMER_MULTIPLER - millisUntilFinished).toFloat() / TIMER_MULTIPLER
+                Log.e(
+                    "TIMER",
+                    ((TIMER_MULTIPLER - millisUntilFinished).toFloat() / TIMER_MULTIPLER).toString()
+                )
+            }
+
+            override fun onFinish() {
+                binding.popProgress.progress = 1f
+            }
+        }.start()
     }
 }
 

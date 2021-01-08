@@ -29,15 +29,34 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/title_text_view_front"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
-                    tools:text="TextView" />
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/title_text_view_front"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        tools:text="TextView" />
+
+                    <com.example.tmdbclient.presentation.ui.PopularityProgressBar
+                        android:id="@+id/pop_progress"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1" />
+
+
+                </LinearLayout>
+
 
                 <ImageView
                     android:id="@+id/imageView_front"
@@ -65,6 +84,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     tools:text="TextView" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

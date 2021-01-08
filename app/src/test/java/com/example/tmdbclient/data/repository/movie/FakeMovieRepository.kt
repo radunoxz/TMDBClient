@@ -13,7 +13,8 @@ class FakeMovieRepository : MovieRepository {
                 "overview1",
                 "posterpath1",
                 releaseDate = "releasedate1",
-                title = "title1"
+                title = "title1",
+                        review = null
             )
         )
         movies.add(
@@ -22,7 +23,8 @@ class FakeMovieRepository : MovieRepository {
                 "overview2",
                 "posterpath2",
                 releaseDate = "releasedate2",
-                title = "title2"
+                title = "title2",
+                review = null
             )
         )
         movies.add(
@@ -31,7 +33,8 @@ class FakeMovieRepository : MovieRepository {
                 "overview3",
                 "posterpath3",
                 releaseDate = "releasedate3",
-                title = "title3"
+                title = "title3",
+                review = null
             )
         )
 

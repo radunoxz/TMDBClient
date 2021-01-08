@@ -6,7 +6,6 @@ import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.data.repository.movie.FakeMovieRepository
 import com.example.tmdbclient.domain.usecase.movie.GetMoviesUseCase
 import com.example.tmdbclient.domain.usecase.movie.UpdateMoviesUseCase
-import com.example.tmdbclient.getOrAwaitValue
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -38,7 +37,9 @@ class MovieViewModelTest {
                 "overview1",
                 "posterpath1",
                 releaseDate = "releasedate1",
-                title = "title1"
+                title = "title1",
+                voteAverage = 2.1f,
+                review = null
             )
         )
         movies.add(
@@ -47,7 +48,9 @@ class MovieViewModelTest {
                 "overview2",
                 "posterpath2",
                 releaseDate = "releasedate2",
-                title = "title2"
+                title = "title2",
+                voteAverage = 2.1f,
+                review = null
             )
         )
         movies.add(
@@ -56,7 +59,9 @@ class MovieViewModelTest {
                 "overview3",
                 "posterpath3",
                 releaseDate = "releasedate3",
-                title = "title3"
+                title = "title3",
+                voteAverage = 2.1f,
+                review = null
             )
         )
 
@@ -74,7 +79,8 @@ class MovieViewModelTest {
                 "overview1",
                 "posterpath1",
                 releaseDate = "releasedate1",
-                title = "title1"
+                title = "title1",
+                voteAverage = 2.1f
             )
         )
         movies.add(
@@ -83,7 +89,9 @@ class MovieViewModelTest {
                 "overview2",
                 "posterpath2",
                 releaseDate = "releasedate2",
-                title = "title2"
+                title = "title2",
+                voteAverage = 2.1f,
+                review = null
             )
         )
         movies.add(
@@ -92,7 +100,9 @@ class MovieViewModelTest {
                 "overview3",
                 "posterpath3",
                 releaseDate = "releasedate3",
-                title = "title3"
+                title = "title3",
+                voteAverage = 2.1f,
+                review = null
             )
         )
 

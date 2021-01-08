@@ -6,7 +6,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tmdbclient.R
-import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.data.model.tv.TvShow
 import com.example.tmdbclient.databinding.ListItemBinding
 
@@ -37,13 +36,12 @@ class TvShowAdapter : RecyclerView.Adapter<MyViewHolder>() {
 
 class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(tvShow: TvShow) {
-        binding.titleTextView.text = tvShow.name
-        binding.descriptionTextView.text = tvShow.overview
+        binding.titleTextViewFront.text = tvShow.name
+        binding.descriptionTextViewFront.text = tvShow.overview
         val posterUrl = "https://image.tmdb.org/t/p/w500/${tvShow.posterPath}"
-        Glide.with(binding.imageView.context)
+        Glide.with(binding.imageViewFront.context)
             .load(posterUrl)
-            .into(binding.imageView)
-
+            .into(binding.imageViewFront)
     }
 
 }

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdbclient.R
 import com.example.tmdbclient.databinding.FragmentHomeBinding
 import com.example.tmdbclient.presentation.artist.ArtistActivity
-import com.example.tmdbclient.presentation.tvshow.TvShowActivity
 
 class HomeFragment : Fragment(), OnItemClickListener {
     private lateinit var binding: FragmentHomeBinding
@@ -68,8 +67,9 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 startActivity(intent)
             }
             R.drawable.ic_tv_show -> {
-                val intent = Intent(requireActivity(), TvShowActivity::class.java)
-                startActivity(intent)
+//                val intent = Intent(requireActivity(), TvShowActivity::class.java)
+//                startActivity(intent)
+                findNavController().navigate(R.id.action_homeFragment2_to_tvShowFragment)
             }
             else -> return
         }

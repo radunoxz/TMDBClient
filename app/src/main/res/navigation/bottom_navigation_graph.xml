@@ -10,9 +10,16 @@
         <action
             android:id="@+id/action_homeFragment2_to_movieFragment"
             app:destination="@id/movieFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_tvShowFragment"
+            app:destination="@id/tvShowFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieFragment"
         android:name="com.example.tmdbclient.presentation.movie.MovieFragment"
         android:label="MovieFragment" />
+    <fragment
+        android:id="@+id/tvShowFragment"
+        android:name="com.example.tmdbclient.presentation.tvshow.TvShowFragment"
+        android:label="TvShowFragment" />
 </navigation>

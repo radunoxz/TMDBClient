@@ -13,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TMDBClient">
-        <activity android:name=".presentation.tvshow.TvShowActivity" />
         <activity android:name=".presentation.artist.ArtistActivity" />
         <activity android:name=".presentation.HomeActivity">
             <intent-filter>

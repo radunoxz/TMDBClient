@@ -1,6 +1,5 @@
 package com.example.tmdbclient.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdbclient.R
 import com.example.tmdbclient.databinding.FragmentHomeBinding
-import com.example.tmdbclient.presentation.artist.ArtistActivity
 
 class HomeFragment : Fragment(), OnItemClickListener {
     private lateinit var binding: FragmentHomeBinding
@@ -57,18 +55,12 @@ class HomeFragment : Fragment(), OnItemClickListener {
     override fun onItemCLicked(menuItem: Int) {
         when (menuItem) {
             R.drawable.ic_movie -> {
-//                val intent = Intent(requireActivity(), MovieActivity::class.java)
-//                Toast.makeText(requireActivity(), menuItem.toString(),Toast.LENGTH_SHORT).show()
-//                startActivity(intent)
                 findNavController().navigate(R.id.action_homeFragment2_to_movieFragment)
             }
             R.drawable.ic_artist -> {
-                val intent = Intent(requireActivity(), ArtistActivity::class.java)
-                startActivity(intent)
+                findNavController().navigate(R.id.action_homeFragment2_to_artistFragment)
             }
             R.drawable.ic_tv_show -> {
-//                val intent = Intent(requireActivity(), TvShowActivity::class.java)
-//                startActivity(intent)
                 findNavController().navigate(R.id.action_homeFragment2_to_tvShowFragment)
             }
             else -> return

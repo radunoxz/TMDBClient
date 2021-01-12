@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment2_to_tvShowFragment"
             app:destination="@id/tvShowFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_artistFragment"
+            app:destination="@id/artistFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieFragment"
@@ -22,4 +25,8 @@
         android:id="@+id/tvShowFragment"
         android:name="com.example.tmdbclient.presentation.tvshow.TvShowFragment"
         android:label="TvShowFragment" />
+    <fragment
+        android:id="@+id/artistFragment"
+        android:name="com.example.tmdbclient.presentation.artist.ArtistFragment"
+        android:label="ArtistFragment" />
 </navigation>

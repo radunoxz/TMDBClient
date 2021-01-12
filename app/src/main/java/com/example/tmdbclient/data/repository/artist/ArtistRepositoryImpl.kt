@@ -12,9 +12,9 @@ class ArtistRepositoryImpl(
     private val localDataSource: ArtistLocalDataSource,
     private val cacheDataSource: ArtistCacheDataSource
 ) : ArtistRepository {
-    override suspend fun getArtists(): List<Artist>? = getArtistsFromCache()
+    override suspend fun getArtists(): List<Artist> = getArtistsFromCache()
 
-    override suspend fun updateArtists(): List<Artist>? {
+    override suspend fun updateArtists(): List<Artist> {
         val newListOfArtists = getArtistsFromRemote()
         localDataSource.clearAll()
         localDataSource.saveArtistToDB(newListOfArtists)

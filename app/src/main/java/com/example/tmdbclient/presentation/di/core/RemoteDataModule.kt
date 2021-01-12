@@ -5,7 +5,6 @@ import com.example.tmdbclient.data.repository.artist.datasource.ArtistRemoteData
 import com.example.tmdbclient.data.repository.artist.datasourceImpl.ArtistRemoteDataSourceImpl
 import com.example.tmdbclient.data.repository.movie.datasource.MovieRemoteDataSource
 import com.example.tmdbclient.data.repository.movie.datasourceImpl.MovieRemoteDataSourceImpl
-import com.example.tmdbclient.data.repository.tvshow.TvShowRepositoryImpl
 import com.example.tmdbclient.data.repository.tvshow.datasource.TvShowRemoteDataSource
 import com.example.tmdbclient.data.repository.tvshow.datasourceImpl.TvShowRemoteDataSourceImpl
 import dagger.Module

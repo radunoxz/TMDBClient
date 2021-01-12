@@ -1,6 +1,5 @@
 package com.example.tmdbclient.presentation.di.tvshow
 
-import com.example.tmdbclient.presentation.artist.ArtistActivity
 import com.example.tmdbclient.presentation.tvshow.TvShowActivity
 import dagger.Subcomponent
 

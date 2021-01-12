@@ -40,11 +40,11 @@ class FakeMovieRepository : MovieRepository {
 
     }
 
-    override suspend fun getMovies(): List<Movie>? {
+    override suspend fun getMovies(): List<Movie> {
         return movies
     }
 
-    override suspend fun updateMovies(): List<Movie>? {
+    override suspend fun updateMovies(): List<Movie> {
         movies.clear()
         movies.add(
             Movie(

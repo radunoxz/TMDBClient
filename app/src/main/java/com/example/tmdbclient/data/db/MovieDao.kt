@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.tmdbclient.data.model.movie.Movie
 import io.reactivex.Flowable
-import io.reactivex.Observable
 
 
 @Dao

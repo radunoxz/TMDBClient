@@ -5,7 +5,6 @@ import com.example.tmdbclient.data.model.movie.MovieList
 import com.example.tmdbclient.data.model.review.Review
 import com.example.tmdbclient.data.repository.movie.datasource.MovieRemoteDataSource
 import io.reactivex.Observable
-import io.reactivex.Single
 
 /**
  * This class is a implementation of the Remote Data Source

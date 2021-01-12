@@ -17,7 +17,7 @@
             android:layout_height="50dp"
             android:adjustViewBounds="true"
             tools:src="@tools:sample/avatars"
-            android:contentDescription="menu_item" />
+            android:contentDescription="@string/menu_item" />
 
         <TextView
             android:id="@+id/tv_menu_item"

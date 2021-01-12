@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "popular_artists")
 data class Artist(
-    @PrimaryKey()
+    @PrimaryKey
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")

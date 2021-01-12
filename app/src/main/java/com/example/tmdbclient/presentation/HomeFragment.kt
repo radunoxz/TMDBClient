@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdbclient.R
 import com.example.tmdbclient.databinding.FragmentHomeBinding
 import com.example.tmdbclient.presentation.artist.ArtistActivity
-import com.example.tmdbclient.presentation.movie.MovieActivity
 import com.example.tmdbclient.presentation.tvshow.TvShowActivity
 
 class HomeFragment : Fragment(), OnItemClickListener {
@@ -60,9 +59,10 @@ class HomeFragment : Fragment(), OnItemClickListener {
     override fun onItemCLicked(menuItem: Int) {
         when (menuItem) {
             R.drawable.ic_movie -> {
-                val intent = Intent(requireActivity(), MovieActivity::class.java)
-                Toast.makeText(requireActivity(), menuItem.toString(),Toast.LENGTH_SHORT).show()
-                startActivity(intent)
+//                val intent = Intent(requireActivity(), MovieActivity::class.java)
+//                Toast.makeText(requireActivity(), menuItem.toString(),Toast.LENGTH_SHORT).show()
+//                startActivity(intent)
+                findNavController().navigate(R.id.action_homeFragment2_to_movieFragment)
             }
             R.drawable.ic_artist -> {
                 val intent = Intent(requireActivity(), ArtistActivity::class.java)

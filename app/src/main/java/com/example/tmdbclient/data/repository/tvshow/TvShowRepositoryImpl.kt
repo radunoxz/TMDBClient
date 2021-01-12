@@ -12,9 +12,9 @@ class TvShowRepositoryImpl(
     private val localDataSource: TvShowLocalDataSource,
     private val cachedDataSource: TvShowCacheDataSource
 ) : TvShowRepository {
-    override suspend fun getTvShows(): List<TvShow>? = getTvShowsFromCache()
+    override suspend fun getTvShows(): List<TvShow> = getTvShowsFromCache()
 
-    override suspend fun updateTvShows(): List<TvShow>? {
+    override suspend fun updateTvShows(): List<TvShow> {
         val newTvShowsList: List<TvShow> = getTvShowsFromRemote()
         localDataSource.clearAll()
         localDataSource.saveTvShowsToDB(newTvShowsList)

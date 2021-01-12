@@ -11,7 +11,6 @@ import com.example.tmdbclient.domain.usecase.tvshow.GetTvShowsUseCase
 import com.example.tmdbclient.domain.usecase.tvshow.UpdateTvShowsUseCase
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 class UseCaseModule {

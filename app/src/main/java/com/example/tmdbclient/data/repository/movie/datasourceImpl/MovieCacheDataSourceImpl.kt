@@ -4,9 +4,6 @@ import android.util.Log
 import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.data.repository.movie.datasource.MovieCacheDataSource
 import io.reactivex.Flowable
-import java.sql.Array
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * This class is an implementation of the Cache Data Source

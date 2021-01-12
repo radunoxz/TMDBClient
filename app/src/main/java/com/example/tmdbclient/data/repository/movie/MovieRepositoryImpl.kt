@@ -11,9 +11,6 @@ import com.example.tmdbclient.domain.repository.MovieRepository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
-import org.reactivestreams.Publisher
-import org.reactivestreams.Subscriber
-import java.util.concurrent.Flow
 
 class MovieRepositoryImpl(
     private val movieRemoteDataSource: MovieRemoteDataSource,
@@ -43,41 +40,25 @@ class MovieRepositoryImpl(
             list.movies
         }
 
-    @SuppressLint("CheckResult")
-//    private fun getMoviesFromDB(): Flowable<List<Movie>> {
-//        Log.i("MYTAG", "getMoviesFromDB")
-//        return localDataSource.getMovies().flatMap {
-//            if (it.isNotEmpty()) {
-//                Flowable.just(it)
-//            }else {
-//                getMoviesFromAPI().map {
-//                    Log.i("MYTAG", it.toString())
-//                    localDataSource.saveMoviesToDB(it)
-//                    it
-//                }.toFlowable(BackpressureStrategy.ERROR)
-//            }
-//        }
-//    }
-
     private fun getMoviesFromDB(): Flowable<List<Movie>> {
         Log.i("MYTAG", "getMoviesFromDB")
         return localDataSource.getMovies().take(1).flatMap {
             if (it.isNotEmpty()) {
                 Flowable.just(it)
-            }else {
+            } else {
                 Flowable.empty()
             }
         }.switchIfEmpty(getMoviesFromAPI().map {
-                localDataSource.saveMoviesToDB(it)
-                it
-            }.toFlowable(BackpressureStrategy.ERROR))
+            localDataSource.saveMoviesToDB(it)
+            it
+        }.toFlowable(BackpressureStrategy.ERROR))
     }
 
     private fun getMoviesFromCache(): Flowable<List<Movie>> {
         return cacheDataSource.getMoviesFromCache().take(1).flatMap {
             if (it.isNotEmpty()) {
                 Flowable.just(it)
-            }else {
+            } else {
                 Flowable.empty()
             }
         }.switchIfEmpty(getMoviesFromDB().map {
@@ -85,5 +66,4 @@ class MovieRepositoryImpl(
             it
         })
     }
-
 }

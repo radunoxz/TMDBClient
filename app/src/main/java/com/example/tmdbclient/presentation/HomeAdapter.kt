@@ -11,6 +11,10 @@ import com.example.tmdbclient.databinding.HomeItemBinding
 class HomeAdapter(private val itemClickListener: OnItemClickListener) :
     RecyclerView.Adapter<ViewHolder>() {
 
+    companion object{
+        private const val ROW_NUM = 3
+    }
+
     private val itemList = listOf(
         "Popular Movies",
         "Popular Artists",
@@ -31,7 +35,7 @@ class HomeAdapter(private val itemClickListener: OnItemClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val height = parent.measuredHeight / 3
+        val height = parent.measuredHeight / ROW_NUM
         val binding: HomeItemBinding =
             DataBindingUtil.inflate(layoutInflater, R.layout.home_item, parent, false)
         binding.root.minimumHeight = height

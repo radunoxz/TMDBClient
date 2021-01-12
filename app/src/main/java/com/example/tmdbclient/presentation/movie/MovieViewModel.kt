@@ -12,5 +12,4 @@ class MovieViewModel(
     fun getMovies() = getMoviesUseCase.execute()
 
     fun updateMovies() = updateMoviesUseCase.execute()
-
 }

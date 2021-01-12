@@ -25,7 +25,6 @@ class MovieAdapter(
     fun setList(movies: List<Movie>) {
         movieList.clear()
         movieList.addAll(movies)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -48,6 +47,7 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
 
     companion object {
         private const val TIMER_MULTIPLER = 3 * 1000L
+        private const val CAMERA_DISTANCE = 8000
     }
 
     private lateinit var frontAnim: AnimatorSet
@@ -55,8 +55,8 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
 
     fun bind(movie: Movie, context: Context, itemClickListener: OnItemClickListener) {
         val scale = context.resources.displayMetrics.density
-        binding.cardViewFront.cameraDistance = 8000 * scale
-        binding.cardViewBack.cameraDistance = 8000 * scale
+        binding.cardViewFront.cameraDistance = CAMERA_DISTANCE * scale
+        binding.cardViewBack.cameraDistance = CAMERA_DISTANCE * scale
         frontAnim = AnimatorInflater.loadAnimator(context, R.animator.front_animator) as AnimatorSet
         backAnim = AnimatorInflater.loadAnimator(context, R.animator.back_animator) as AnimatorSet
 
@@ -69,7 +69,6 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
             .load(posterUrl)
             .into(binding.imageViewFront)
 
-
         binding.cardViewBack.setOnClickListener {
             itemClickListener.onItemCLicked(movie, binding.cardViewFront, binding.cardViewBack)
         }
@@ -80,10 +79,10 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
                     (TIMER_MULTIPLER - millisUntilFinished).toFloat() / TIMER_MULTIPLER
                 binding.popProgress.progressText =
                     movie.voteAverage * (TIMER_MULTIPLER - millisUntilFinished).toFloat() / TIMER_MULTIPLER
-                Log.e(
-                    "TIMER",
-                    ((TIMER_MULTIPLER - millisUntilFinished).toFloat() / TIMER_MULTIPLER).toString()
-                )
+//                Log.e(
+//                    "TIMER",
+//                    ((TIMER_MULTIPLER - millisUntilFinished).toFloat() / TIMER_MULTIPLER).toString()
+//                )
             }
 
             override fun onFinish() {

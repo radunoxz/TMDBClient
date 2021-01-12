@@ -19,9 +19,9 @@ class HomeFragment : Fragment(), OnItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: HomeAdapter
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
@@ -48,7 +48,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
         )
         binding.homeRecyclerview.setHasFixedSize(true)
         binding.homeRecyclerview.isLayoutFrozen = true
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

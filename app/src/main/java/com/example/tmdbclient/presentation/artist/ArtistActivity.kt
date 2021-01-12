@@ -77,7 +77,5 @@ class ArtistActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-
     }
-
 }

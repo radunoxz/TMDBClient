@@ -59,7 +59,6 @@ class TvShowRepositoryImpl(
         lateinit var tvShowsList: List<TvShow>
         try {
             tvShowsList = cachedDataSource.getTvShowsFromCache()
-
         } catch (exception: Exception) {
             Log.e("MYTAG", exception.message.toString())
         }

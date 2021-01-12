@@ -54,6 +54,5 @@ class HomeActivity : AppCompatActivity() {
     private fun openFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, fragment)
             .addToBackStack(null).commit()
-
     }
 }

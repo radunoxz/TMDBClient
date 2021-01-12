@@ -51,6 +51,7 @@
                         android:id="@+id/pop_progress"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        app:ovalSize="7dp"
                         android:layout_gravity="center"
                         android:layout_weight="1" />
 

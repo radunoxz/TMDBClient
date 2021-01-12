@@ -16,7 +16,6 @@ class TvShowLocalDataSourceImpl(
     override suspend fun getTvShows(): List<TvShow> =
         tvShowDao.getTvShows()
 
-
     override suspend fun saveTvShowsToDB(tvShows: List<TvShow>) {
         CoroutineScope(IO).launch {
             tvShowDao.insertTvShoes(tvShows)

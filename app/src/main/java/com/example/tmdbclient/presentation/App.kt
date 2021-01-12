@@ -23,12 +23,9 @@ class App : Application(), Injector {
     override fun createMovieSubComponent(): MovieSubComponent =
         appComponent.movieSubComponent().create()
 
-
     override fun createTvShowSubComponent(): TvShowSubComponent =
         appComponent.tvShowSubComponent().create()
 
-
     override fun createArtistSubComponent(): ArtistSubComponent =
         appComponent.artistSubComponent().create()
-
 }

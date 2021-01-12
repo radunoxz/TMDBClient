@@ -19,13 +19,11 @@ class ArtistLocalDataSourceImpl(
         CoroutineScope(IO).launch {
             artistDao.insertArtists(artists)
         }
-
     }
 
     override suspend fun clearAll() {
         CoroutineScope(IO).launch {
             artistDao.deleteAllArtists()
         }
-
     }
 }

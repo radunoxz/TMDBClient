@@ -15,7 +15,6 @@ class GetMoviesUseCase(private val movieRepository: MovieRepository) {
                     ?: "This movie doesn't have a review"
                 Log.i(GetMoviesUseCase::class.java.canonicalName, movie.toString())
                 Observable.just(movie)
-
             }.subscribeOn(Schedulers.io())
         }.toList().toObservable().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

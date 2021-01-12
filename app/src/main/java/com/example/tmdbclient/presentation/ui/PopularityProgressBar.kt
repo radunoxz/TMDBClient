@@ -6,33 +6,56 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
+import com.example.tmdbclient.R
 
 class PopularityProgressBar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr) {
+    private var margin: Float = 0f
+
+    init {
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.PopularityProgressBar,
+            0,
+            0
+        ).apply {
+            try {
+                margin = getDimension(R.styleable.PopularityProgressBar_ovalSize, 0f)
+                Log.e("ProgressBar", margin.toString())
+            } catch (e: NumberFormatException) {
+                Log.e("ProgressBar", e.message.toString())
+            } finally {
+                recycle()
+            }
+        }
+    }
 
     companion object {
         private const val MULTIPLIER = 10
+        private const val BACKGROUND_WIDTH = 5f
+        private const val PROGRESS_WIDTH = 10f
+        private const val RADIUS = 360
+        private const val COMPLETION = 100
+        private const val START_ANGLE = 270f
+        private const val TEXT_SIZE = 15f
     }
-
-    private val backgroundWidth = 5f
-    private val progressWidth = 10f
-
 
     private val backgroundPaint = Paint().apply {
         color = Color.parseColor("#081C22")
         style = Paint.Style.FILL_AND_STROKE
-        strokeWidth = backgroundWidth
+        strokeWidth = BACKGROUND_WIDTH
         isAntiAlias = true
     }
 
     private val progressBackground = Paint().apply {
         color = Color.parseColor("#204529")
         style = Paint.Style.STROKE
-        strokeWidth = backgroundWidth
+        strokeWidth = BACKGROUND_WIDTH
         isAntiAlias = true
     }
 
@@ -40,13 +63,13 @@ class PopularityProgressBar @JvmOverloads constructor(
         color = Color.parseColor("#21D07A")
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
-        strokeWidth = progressWidth
+        strokeWidth = PROGRESS_WIDTH
         isAntiAlias = true
     }
 
     private val textPaint = Paint().apply {
         color = Color.parseColor("white")
-        textSize = 15f
+        textSize = TEXT_SIZE
         textAlign = Paint.Align.CENTER
     }
 
@@ -75,15 +98,15 @@ class PopularityProgressBar @JvmOverloads constructor(
     private var radiusBackground = 0f
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        centreX = w.toFloat() / 2
-        centreY = h.toFloat() / 2
-        radius = w.toFloat() / 2 - progressWidth
-        radiusBackground = w.toFloat() / 2
+        centreX = w.toFloat().div(2)
+        centreY = h.toFloat().div(2)
+        radius = w.toFloat().div(2) - PROGRESS_WIDTH
+        radiusBackground = w.toFloat().div(2)
         oval.set(
-            centreX - radius + 20,
-            centreY - radius + 20,
-            centreX + radius - 20,
-            centreY + radius - 20
+            centreX - radius + margin,
+            centreY - radius + margin,
+            centreX + radius - margin,
+            centreY + radius - margin
         )
         super.onSizeChanged(w, h, oldw, oldh)
     }
@@ -91,11 +114,11 @@ class PopularityProgressBar @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.drawCircle(centreX, centreY, radius, backgroundPaint)
-        canvas?.drawCircle(centreX, centreY, radius - 20, progressBackground)
+        canvas?.drawCircle(centreX, centreY, radius - margin, progressBackground)
         canvas?.drawArc(
             oval,
-            270f,
-            progress * 360 * popularityScore.times(10).toInt() / 100,
+            START_ANGLE,
+            progress * RADIUS * popularityScore.times(10).toInt() / COMPLETION,
             false,
             progressPaint
         )

@@ -17,7 +17,6 @@ class ArtistAdapter : RecyclerView.Adapter<MyViewHolder>() {
         artistsList.addAll(artists)
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: ListItemBinding =
@@ -43,5 +42,4 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
             .load(posterURL)
             .into(binding.imageViewFront)
     }
-
 }

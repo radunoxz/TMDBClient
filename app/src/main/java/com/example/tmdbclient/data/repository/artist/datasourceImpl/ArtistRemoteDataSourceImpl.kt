@@ -14,5 +14,4 @@ class ArtistRemoteDataSourceImpl(
 ) : ArtistRemoteDataSource {
     override suspend fun getArtists(): Response<ArtistList> =
         tmdbService.getPopularArtists(apiKey)
-
 }

@@ -15,7 +15,6 @@ class TvShowAdapter : RecyclerView.Adapter<MyViewHolder>() {
     fun setList(tvShows: List<TvShow>) {
         tvShowList.clear()
         tvShowList.addAll(tvShows)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -43,5 +42,4 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
             .load(posterUrl)
             .into(binding.imageViewFront)
     }
-
 }

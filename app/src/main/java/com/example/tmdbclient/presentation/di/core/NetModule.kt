@@ -36,7 +36,6 @@ class NetModule(private val baseUrl: String) {
             .build()
     }
 
-
     @Provides
     @Singleton
     fun provideTMDBService(retrofit: Retrofit): TMDBService {

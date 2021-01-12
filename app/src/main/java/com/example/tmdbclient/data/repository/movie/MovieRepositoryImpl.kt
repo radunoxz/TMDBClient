@@ -1,6 +1,4 @@
 package com.example.tmdbclient.data.repository.movie
-
-import android.annotation.SuppressLint
 import android.util.Log
 import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.data.model.review.Review
@@ -30,7 +28,6 @@ class MovieRepositoryImpl(
 
     override fun getReviews(movieId: String): Observable<Review> =
         movieRemoteDataSource.getReviews(movieId)
-
 
     private fun getMoviesFromAPI(): Observable<List<Movie>> = movieRemoteDataSource.getMovies()
         .doOnNext { list ->

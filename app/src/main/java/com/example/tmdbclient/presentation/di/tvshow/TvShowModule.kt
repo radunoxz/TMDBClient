@@ -15,5 +15,4 @@ class TvShowModule {
         updateTvShowsUseCase: UpdateTvShowsUseCase
     ): TvShowViewModelFactory =
         TvShowViewModelFactory(getTvShowsUseCase, updateTvShowsUseCase)
-
 }

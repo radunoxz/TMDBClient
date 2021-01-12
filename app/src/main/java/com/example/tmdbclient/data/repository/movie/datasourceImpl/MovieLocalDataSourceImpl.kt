@@ -13,7 +13,6 @@ class MovieLocalDataSourceImpl(private val movieDao: MovieDao) : MovieLocalDataS
         return movieDao.getMovies()
     }
 
-
     override fun saveMoviesToDB(movies: List<Movie>) {
         movieDao.saveMovies(movies)
     }

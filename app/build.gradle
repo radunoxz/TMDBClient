@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'io.gitlab.arturbosch.detekt'
 }
 
 android {
@@ -68,6 +69,11 @@ dependencies {
     def okhttp_version = "4.9.0"
     def glide_version = "4.11.0"
     def nav_version = "2.3.2"
+    def detekt_version = "1.15.0"
+
+    // Detekt
+    detekt("io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version")
+    detekt("io.gitlab.arturbosch.detekt:detekt-cli:$detekt_version")
 
     // UI
     implementation "com.github.skydoves:landscapist-glide:1.1.1"

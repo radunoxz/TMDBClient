@@ -7,7 +7,6 @@ import androidx.room.Query
 import com.example.tmdbclient.data.model.movie.Movie
 import io.reactivex.Flowable
 
-
 @Dao
 interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -27,9 +27,9 @@ class MovieFragment : Fragment(), OnItemClickListener {
     private lateinit var backAnim: AnimatorSet
     private var isFront: Boolean = true
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
@@ -57,7 +57,6 @@ class MovieFragment : Fragment(), OnItemClickListener {
         binding.movieRecyclerView.adapter = adapter
         displayPopularMovies()
     }
-
 
     @SuppressLint("CheckResult")
     private fun displayPopularMovies() {
@@ -103,7 +102,6 @@ class MovieFragment : Fragment(), OnItemClickListener {
             }
             else -> super.onOptionsItemSelected(item)
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -32,7 +32,7 @@ class ArtistRepositoryImpl(
                 artistsList = body.artists
             }
         } catch (exception: Exception) {
-            Log.e("MYTAG", "${exception.message.toString()} 1")
+            Log.e("MYTAG", "${exception.message} 1")
         }
 
         return artistsList
@@ -49,7 +49,7 @@ class ArtistRepositoryImpl(
                 localDataSource.saveArtistToDB(artistsList)
             }
         } catch (exception: Exception) {
-            Log.e("MYTAG", "${exception.message.toString()} 1")
+            Log.e("MYTAG", "${exception.message} 1")
         }
 
         return artistsList
@@ -59,9 +59,8 @@ class ArtistRepositoryImpl(
         lateinit var artistsList: List<Artist>
         try {
             artistsList = cacheDataSource.getArtistFromCache()
-
         } catch (exception: Exception) {
-            Log.e("MYTAG", "${exception.message.toString()} 1")
+            Log.e("MYTAG", "${exception.message} 1")
         }
         if (artistsList.isNotEmpty()) {
             return artistsList
@@ -72,5 +71,4 @@ class ArtistRepositoryImpl(
 
         return artistsList
     }
-
 }

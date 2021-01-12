@@ -71,7 +71,6 @@ class TvShowActivity : AppCompatActivity() {
                 binding.tvshowProgressBar.visibility = View.GONE
             }
         })
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -82,6 +81,5 @@ class TvShowActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-
     }
 }

@@ -24,10 +24,9 @@ class HomeActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.movieFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-
+                R.id.movieFragment -> binding.bottomNavigation.visibility = View.GONE
+                R.id.artistFragment -> binding.bottomNavigation.visibility = View.GONE
+                R.id.tvShowFragment -> binding.bottomNavigation.visibility = View.GONE
                 else -> binding.bottomNavigation.visibility = View.VISIBLE
             }
         }

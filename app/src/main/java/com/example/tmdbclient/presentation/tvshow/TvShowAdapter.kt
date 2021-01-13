@@ -1,6 +1,7 @@
 package com.example.tmdbclient.presentation.tvshow
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -41,5 +42,6 @@ class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bindi
         Glide.with(binding.imageViewFront.context)
             .load(posterUrl)
             .into(binding.imageViewFront)
+        binding.popProgress.visibility = View.GONE
     }
 }

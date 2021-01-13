@@ -1,4 +1,5 @@
 package com.example.tmdbclient.data.repository.movie
+
 import android.util.Log
 import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.data.model.review.Review
@@ -45,10 +46,12 @@ class MovieRepositoryImpl(
             } else {
                 Flowable.empty()
             }
-        }.switchIfEmpty(getMoviesFromAPI().map {
-            localDataSource.saveMoviesToDB(it)
-            it
-        }.toFlowable(BackpressureStrategy.ERROR))
+        }.switchIfEmpty(
+            getMoviesFromAPI().map {
+                localDataSource.saveMoviesToDB(it)
+                it
+            }.toFlowable(BackpressureStrategy.ERROR)
+        )
     }
 
     private fun getMoviesFromCache(): Flowable<List<Movie>> {
@@ -58,9 +61,10 @@ class MovieRepositoryImpl(
             } else {
                 Flowable.empty()
             }
-        }.switchIfEmpty(getMoviesFromDB().map {
-            cacheDataSource.saveMoviesToCache(it)
-            it
-        })
+        }.switchIfEmpty(
+            getMoviesFromDB().map {
+                cacheDataSource.saveMoviesToCache(it)
+                it
+            })
     }
 }

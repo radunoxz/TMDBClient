@@ -1,8 +1,8 @@
 package com.example.tmdbclient.data.repository.tvshow.datasource
 
 import com.example.tmdbclient.data.model.tv.TvShowList
-import retrofit2.Response
+import io.reactivex.Observable
 
 interface TvShowRemoteDataSource {
-    suspend fun getTvShows(): Response<TvShowList>
+    fun getTvShows(): Observable<TvShowList>
 }

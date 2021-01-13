@@ -15,7 +15,7 @@ interface TMDBService {
     fun getPopularMovies(@Query("api_key") apiKey: String): Observable<MovieList>
 
     @GET("tv/popular")
-    suspend fun getPopularTvShows(@Query("api_key") apiKey: String): Response<TvShowList>
+    fun getPopularTvShows(@Query("api_key") apiKey: String): Observable<TvShowList>
 
     @GET("person/popular")
     suspend fun getPopularArtists(@Query("api_key") apiKey: String): Response<ArtistList>

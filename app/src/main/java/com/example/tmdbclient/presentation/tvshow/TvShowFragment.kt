@@ -1,5 +1,6 @@
 package com.example.tmdbclient.presentation.tvshow
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -37,23 +38,38 @@ class TvShowFragment : Fragment() {
         binding.tvshowRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
         adapter = TvShowAdapter()
         binding.tvshowRecyclerView.adapter = adapter
-        displayPopularMovies()
+        displayPopularTvShows()
     }
 
-    private fun displayPopularMovies() {
+    @SuppressLint("CheckResult")
+    private fun displayPopularTvShows() {
         binding.tvshowRecyclerView.visibility = View.VISIBLE
         tvShowViewModel = ViewModelProvider(this, factory).get(TvShowViewModel::class.java)
-        val responseLiveData = tvShowViewModel.getTvShows()
-        responseLiveData.observe(requireActivity(), {
-            if (it != null) {
-                adapter.setList(it)
+        val responseObservable = tvShowViewModel.getTvShows()
+        responseObservable.subscribe(
+            { tvShowsList ->
+                adapter.setList(tvShowsList)
                 adapter.notifyDataSetChanged()
-                binding.tvshowProgressBar.visibility = View.GONE
-            } else {
+
+            },
+            {
                 binding.tvshowProgressBar.visibility = View.GONE
                 Toast.makeText(requireActivity(), "No data available", Toast.LENGTH_LONG).show()
+            },
+            {
+                binding.tvshowProgressBar.visibility = View.GONE
             }
-        })
+        )
+//        responseLiveData.observe(requireActivity(), {
+//            if (it != null) {
+//                adapter.setList(it)
+//                adapter.notifyDataSetChanged()
+//                binding.tvshowProgressBar.visibility = View.GONE
+//            } else {
+//                binding.tvshowProgressBar.visibility = View.GONE
+//                Toast.makeText(requireActivity(), "No data available", Toast.LENGTH_LONG).show()
+//            }
+//        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -61,19 +77,33 @@ class TvShowFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    @SuppressLint("CheckResult")
     private fun updateTvShows() {
         binding.tvshowProgressBar.visibility = View.VISIBLE
-        val response = tvShowViewModel.updateTvShows()
-        response.observe(this, {
-            if (it != null) {
-                Log.i("MYTAG", it.toString())
-                adapter.setList(it)
+        val responseObservable = tvShowViewModel.updateTvShows()
+        responseObservable.subscribe(
+            { tvShowsList ->
+                adapter.setList(tvShowsList)
                 adapter.notifyDataSetChanged()
+            },
+            {
                 binding.tvshowProgressBar.visibility = View.GONE
-            } else {
+                Toast.makeText(requireActivity(), "No data available", Toast.LENGTH_LONG).show()
+            },
+            {
                 binding.tvshowProgressBar.visibility = View.GONE
             }
-        })
+        )
+//        response.observe(this, {
+//            if (it != null) {
+//                Log.i("MYTAG", it.toString())
+//                adapter.setList(it)
+//                adapter.notifyDataSetChanged()
+//                binding.tvshowProgressBar.visibility = View.GONE
+//            } else {
+//                binding.tvshowProgressBar.visibility = View.GONE
+//            }
+//        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

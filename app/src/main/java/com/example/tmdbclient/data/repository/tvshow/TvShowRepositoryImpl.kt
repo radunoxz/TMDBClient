@@ -6,69 +6,61 @@ import com.example.tmdbclient.data.repository.tvshow.datasource.TvShowCacheDataS
 import com.example.tmdbclient.data.repository.tvshow.datasource.TvShowLocalDataSource
 import com.example.tmdbclient.data.repository.tvshow.datasource.TvShowRemoteDataSource
 import com.example.tmdbclient.domain.repository.TvShowRepository
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.Observable
+import java.util.concurrent.Flow
 
 class TvShowRepositoryImpl(
     private val remoteDataSource: TvShowRemoteDataSource,
     private val localDataSource: TvShowLocalDataSource,
     private val cachedDataSource: TvShowCacheDataSource
 ) : TvShowRepository {
-    override suspend fun getTvShows(): List<TvShow> = getTvShowsFromCache()
+    override fun getTvShows(): Observable<List<TvShow>> =
+        getTvShowsFromCache().toObservable()
 
-    override suspend fun updateTvShows(): List<TvShow> {
-        val newTvShowsList: List<TvShow> = getTvShowsFromRemote()
-        localDataSource.clearAll()
-        localDataSource.saveTvShowsToDB(newTvShowsList)
-        cachedDataSource.saveTvShowsToCache(newTvShowsList)
-
-        return newTvShowsList
-    }
-
-    private suspend fun getTvShowsFromRemote(): List<TvShow> {
-        lateinit var tvShowsList: List<TvShow>
-        try {
-            val response = remoteDataSource.getTvShows()
-            val body = response.body()
-            if (body != null) {
-                tvShowsList = body.tvShows
-            }
-        } catch (exception: Exception) {
-            Log.e("MYTAG", exception.message.toString())
+    override fun updateTvShows(): Observable<List<TvShow>> =
+        getTvShowsFromAPI().doOnNext {
+            localDataSource.clearAll()
+            localDataSource.saveTvShowsToDB(it)
+            cachedDataSource.saveTvShowsToCache(it)
         }
 
-        return tvShowsList
-    }
+    private fun getTvShowsFromAPI(): Observable<List<TvShow>> =
+        remoteDataSource.getTvShows().doOnNext {
+            Log.e("MYTAG", Thread.currentThread().id.toString())
+        }.map { list ->
+            list.tvShows
+        }
 
-    private suspend fun getTvShowsFromLocal(): List<TvShow> {
-        lateinit var tvShowsList: List<TvShow>
-        try {
-            tvShowsList = localDataSource.getTvShows()
-            if (tvShowsList.isNotEmpty()) {
-                return tvShowsList
+    private fun getTvShowsFromDatabase(): Flowable<List<TvShow>> {
+        Log.i("MYTAG", "getTvShowsFromDatabase")
+        return localDataSource.getTvShows().take(1).flatMap {
+            if (it.isNotEmpty()) {
+                Flowable.just(it)
             } else {
-                tvShowsList = getTvShowsFromRemote()
-                localDataSource.saveTvShowsToDB(tvShowsList)
+                Flowable.empty()
             }
-        } catch (exception: Exception) {
-            Log.e("MYTAG", exception.message.toString())
-        }
-
-        return tvShowsList
+        }.switchIfEmpty(
+            getTvShowsFromAPI().map {
+                localDataSource.saveTvShowsToDB(it)
+                it
+            }.toFlowable(BackpressureStrategy.ERROR)
+        )
     }
 
-    private suspend fun getTvShowsFromCache(): List<TvShow> {
-        lateinit var tvShowsList: List<TvShow>
-        try {
-            tvShowsList = cachedDataSource.getTvShowsFromCache()
-        } catch (exception: Exception) {
-            Log.e("MYTAG", exception.message.toString())
-        }
-        if (tvShowsList.isNotEmpty()) {
-            return tvShowsList
-        } else {
-            tvShowsList = getTvShowsFromLocal()
-            cachedDataSource.saveTvShowsToCache(tvShowsList)
-        }
-
-        return tvShowsList
+    private fun getTvShowsFromCache(): Flowable<List<TvShow>> {
+        Log.i("MYTAG", "getTvShowsFromCache")
+        return cachedDataSource.getTvShowsFromCache().take(1).flatMap {
+            if (it.isNotEmpty()) {
+                Flowable.just(it)
+            } else {
+                Flowable.empty()
+            }
+        }.switchIfEmpty(
+            getTvShowsFromDatabase().map {
+                cachedDataSource.saveTvShowsToCache(it)
+                it
+            })
     }
 }

@@ -3,9 +3,7 @@ package com.example.tmdbclient.data.repository.artist.datasourceImpl
 import com.example.tmdbclient.data.db.ArtistDao
 import com.example.tmdbclient.data.model.artist.Artist
 import com.example.tmdbclient.data.repository.artist.datasource.ArtistLocalDataSource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
+import io.reactivex.Flowable
 
 /**
  * This class is a implementation of the Local Data Source
@@ -13,17 +11,13 @@ import kotlinx.coroutines.launch
 class ArtistLocalDataSourceImpl(
     private val artistDao: ArtistDao
 ) : ArtistLocalDataSource {
-    override suspend fun getArtists(): List<Artist> = artistDao.getArtists()
+    override fun getArtists(): Flowable<List<Artist>> = artistDao.getArtists()
 
-    override suspend fun saveArtistToDB(artists: List<Artist>) {
-        CoroutineScope(IO).launch {
-            artistDao.insertArtists(artists)
-        }
+    override fun saveArtistToDB(artists: List<Artist>) {
+        artistDao.insertArtists(artists)
     }
 
-    override suspend fun clearAll() {
-        CoroutineScope(IO).launch {
-            artistDao.deleteAllArtists()
-        }
+    override fun clearAll() {
+        artistDao.deleteAllArtists()
     }
 }

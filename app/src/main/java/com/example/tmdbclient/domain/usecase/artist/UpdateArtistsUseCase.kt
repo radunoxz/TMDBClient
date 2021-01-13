@@ -2,7 +2,8 @@ package com.example.tmdbclient.domain.usecase.artist
 
 import com.example.tmdbclient.data.model.artist.Artist
 import com.example.tmdbclient.domain.repository.ArtistRepository
+import io.reactivex.Observable
 
 class UpdateArtistsUseCase(private val artistRepository: ArtistRepository) {
-    suspend fun execute(): List<Artist>? = artistRepository.updateArtists()
+    fun execute(): Observable<List<Artist>> = artistRepository.updateArtists()
 }

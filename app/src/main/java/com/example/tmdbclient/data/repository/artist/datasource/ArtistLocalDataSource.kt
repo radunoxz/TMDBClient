@@ -1,9 +1,10 @@
 package com.example.tmdbclient.data.repository.artist.datasource
 
 import com.example.tmdbclient.data.model.artist.Artist
+import io.reactivex.Flowable
 
 interface ArtistLocalDataSource {
-    suspend fun getArtists(): List<Artist>
-    suspend fun saveArtistToDB(artists: List<Artist>)
-    suspend fun clearAll()
+    fun getArtists(): Flowable<List<Artist>>
+    fun saveArtistToDB(artists: List<Artist>)
+    fun clearAll()
 }

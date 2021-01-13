@@ -6,69 +6,54 @@ import com.example.tmdbclient.data.repository.artist.datasource.ArtistCacheDataS
 import com.example.tmdbclient.data.repository.artist.datasource.ArtistLocalDataSource
 import com.example.tmdbclient.data.repository.artist.datasource.ArtistRemoteDataSource
 import com.example.tmdbclient.domain.repository.ArtistRepository
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.Observable
 
 class ArtistRepositoryImpl(
     private val remoteDataSource: ArtistRemoteDataSource,
     private val localDataSource: ArtistLocalDataSource,
     private val cacheDataSource: ArtistCacheDataSource
 ) : ArtistRepository {
-    override suspend fun getArtists(): List<Artist> = getArtistsFromCache()
+    override fun getArtists(): Observable<List<Artist>> = getArtistsFromCache().toObservable()
 
-    override suspend fun updateArtists(): List<Artist> {
-        val newListOfArtists = getArtistsFromRemote()
+    override fun updateArtists(): Observable<List<Artist>> = getArtistsFromAPI().doOnNext {
         localDataSource.clearAll()
-        localDataSource.saveArtistToDB(newListOfArtists)
-        cacheDataSource.saveArtistToCache(newListOfArtists)
-
-        return newListOfArtists
+        localDataSource.saveArtistToDB(it)
+        cacheDataSource.saveArtistToCache(it)
     }
 
-    private suspend fun getArtistsFromRemote(): List<Artist> {
-        lateinit var artistsList: List<Artist>
-        try {
-            val response = remoteDataSource.getArtists()
-            val body = response.body()
-            if (body != null) {
-                artistsList = body.artists
-            }
-        } catch (exception: Exception) {
-            Log.e("MYTAG", "${exception.message} 1")
+    private fun getArtistsFromAPI(): Observable<List<Artist>> =
+        remoteDataSource.getArtists().take(1).doOnNext {
+            Log.i("MYTAG", Thread.currentThread().id.toString())
+        }.map { list ->
+            list.artists
         }
 
-        return artistsList
-    }
-
-    private suspend fun getArtistsFromLocal(): List<Artist> {
-        lateinit var artistsList: List<Artist>
-        try {
-            artistsList = localDataSource.getArtists()
-            if (artistsList.isNotEmpty()) {
-                return artistsList
+    private fun getArtistFromDataBase() =
+        localDataSource.getArtists().take(1).flatMap {
+            if (it.isNotEmpty()) {
+                Flowable.just(it)
             } else {
-                artistsList = getArtistsFromRemote()
-                localDataSource.saveArtistToDB(artistsList)
+                Flowable.empty()
             }
-        } catch (exception: Exception) {
-            Log.e("MYTAG", "${exception.message} 1")
-        }
+        }.switchIfEmpty(
+            getArtistsFromAPI().map {
+                localDataSource.saveArtistToDB(it)
+                it
+            }.toFlowable(BackpressureStrategy.ERROR)
+        )
 
-        return artistsList
-    }
-
-    private suspend fun getArtistsFromCache(): List<Artist> {
-        lateinit var artistsList: List<Artist>
-        try {
-            artistsList = cacheDataSource.getArtistFromCache()
-        } catch (exception: Exception) {
-            Log.e("MYTAG", "${exception.message} 1")
-        }
-        if (artistsList.isNotEmpty()) {
-            return artistsList
-        } else {
-            artistsList = getArtistsFromLocal()
-            cacheDataSource.saveArtistToCache(artistsList)
-        }
-
-        return artistsList
-    }
+    private fun getArtistsFromCache() =
+        cacheDataSource.getArtistFromCache().take(1).flatMap {
+            if (it.isNotEmpty()) {
+                Flowable.just(it)
+            } else {
+                Flowable.empty()
+            }
+        }.switchIfEmpty(
+            getArtistFromDataBase().map {
+                cacheDataSource.saveArtistToCache(it)
+                it
+            })
 }

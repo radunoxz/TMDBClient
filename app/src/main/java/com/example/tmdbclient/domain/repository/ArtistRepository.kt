@@ -1,8 +1,9 @@
 package com.example.tmdbclient.domain.repository
 
 import com.example.tmdbclient.data.model.artist.Artist
+import io.reactivex.Observable
 
 interface ArtistRepository {
-    suspend fun getArtists(): List<Artist>?
-    suspend fun updateArtists(): List<Artist>?
+     fun getArtists(): Observable<List<Artist>>
+     fun updateArtists(): Observable<List<Artist>>
 }

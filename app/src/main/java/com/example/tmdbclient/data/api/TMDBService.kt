@@ -5,7 +5,6 @@ import com.example.tmdbclient.data.model.movie.MovieList
 import com.example.tmdbclient.data.model.review.Review
 import com.example.tmdbclient.data.model.tv.TvShowList
 import io.reactivex.Observable
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -18,7 +17,7 @@ interface TMDBService {
     fun getPopularTvShows(@Query("api_key") apiKey: String): Observable<TvShowList>
 
     @GET("person/popular")
-    suspend fun getPopularArtists(@Query("api_key") apiKey: String): Response<ArtistList>
+    fun getPopularArtists(@Query("api_key") apiKey: String): Observable<ArtistList>
 
     @GET("movie/{movie_id}/reviews")
     fun getReviews(

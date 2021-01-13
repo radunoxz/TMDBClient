@@ -2,11 +2,10 @@ package com.example.tmdbclient.presentation.tvshow
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmdbclient.R
@@ -43,7 +42,7 @@ class TvShowFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun displayPopularTvShows() {
-        binding.tvshowRecyclerView.visibility = View.VISIBLE
+        binding.tvshowProgressBar.visibility = View.VISIBLE
         tvShowViewModel = ViewModelProvider(this, factory).get(TvShowViewModel::class.java)
         val responseObservable = tvShowViewModel.getTvShows()
         responseObservable.subscribe(
@@ -58,18 +57,7 @@ class TvShowFragment : Fragment() {
             },
             {
                 binding.tvshowProgressBar.visibility = View.GONE
-            }
-        )
-//        responseLiveData.observe(requireActivity(), {
-//            if (it != null) {
-//                adapter.setList(it)
-//                adapter.notifyDataSetChanged()
-//                binding.tvshowProgressBar.visibility = View.GONE
-//            } else {
-//                binding.tvshowProgressBar.visibility = View.GONE
-//                Toast.makeText(requireActivity(), "No data available", Toast.LENGTH_LONG).show()
-//            }
-//        })
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -92,18 +80,7 @@ class TvShowFragment : Fragment() {
             },
             {
                 binding.tvshowProgressBar.visibility = View.GONE
-            }
-        )
-//        response.observe(this, {
-//            if (it != null) {
-//                Log.i("MYTAG", it.toString())
-//                adapter.setList(it)
-//                adapter.notifyDataSetChanged()
-//                binding.tvshowProgressBar.visibility = View.GONE
-//            } else {
-//                binding.tvshowProgressBar.visibility = View.GONE
-//            }
-//        })
+            })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,7 +1,9 @@
 package com.example.tmdbclient.presentation.artist
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -30,7 +32,6 @@ class ArtistFragment : Fragment() {
         return binding.root
     }
 
-
     private fun initRecyclerView() {
         val layoutManager = LinearLayoutManager(requireActivity())
         adapter = ArtistAdapter()
@@ -39,32 +40,40 @@ class ArtistFragment : Fragment() {
         displayArtistList()
     }
 
+    @SuppressLint("CheckResult")
     private fun displayArtistList() {
         binding.artistProgressBar.visibility = View.VISIBLE
         artistViewModel = ViewModelProvider(this, factory).get(ArtistViewModel::class.java)
-        val response = artistViewModel.getArtists().observe(requireActivity(), {
-            if (it != null) {
+        artistViewModel.getArtists().subscribe(
+            {
                 adapter.setArtistList(it)
                 adapter.notifyDataSetChanged()
+            },
+            {
                 binding.artistProgressBar.visibility = View.GONE
-            } else {
+                Toast.makeText(requireActivity(), "No data available", Toast.LENGTH_LONG).show()
+            },
+            {
                 binding.artistProgressBar.visibility = View.GONE
-            }
-        })
+            })
     }
 
+    @SuppressLint("CheckResult")
     private fun updateArtists() {
         binding.artistProgressBar.visibility = View.VISIBLE
         artistViewModel = ViewModelProvider(this, factory).get(ArtistViewModel::class.java)
-        val response = artistViewModel.updateArtists().observe(this, {
-            if (it != null) {
+        artistViewModel.updateArtists().subscribe(
+            {
                 adapter.setArtistList(it)
                 adapter.notifyDataSetChanged()
+            },
+            {
                 binding.artistProgressBar.visibility = View.GONE
-            } else {
+                Toast.makeText(requireActivity(), "No data available", Toast.LENGTH_LONG).show()
+            },
+            {
                 binding.artistProgressBar.visibility = View.GONE
-            }
-        })
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

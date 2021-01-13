@@ -43,6 +43,7 @@ class PopularityProgressBar @JvmOverloads constructor(
         private const val COMPLETION = 100
         private const val START_ANGLE = 270f
         private const val TEXT_SIZE = 15f
+        private const val TEN = 10
     }
 
     private val backgroundPaint = Paint().apply {
@@ -118,7 +119,7 @@ class PopularityProgressBar @JvmOverloads constructor(
         canvas?.drawArc(
             oval,
             START_ANGLE,
-            progress * RADIUS * popularityScore.times(10).toInt() / COMPLETION,
+            progress * RADIUS * popularityScore.times(TEN).toInt() / COMPLETION,
             false,
             progressPaint
         )

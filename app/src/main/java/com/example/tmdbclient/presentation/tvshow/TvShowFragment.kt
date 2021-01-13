@@ -2,7 +2,12 @@ package com.example.tmdbclient.presentation.tvshow
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.MenuInflater
+import android.view.Menu
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -49,7 +54,6 @@ class TvShowFragment : Fragment() {
             { tvShowsList ->
                 adapter.setList(tvShowsList)
                 adapter.notifyDataSetChanged()
-
             },
             {
                 binding.tvshowProgressBar.visibility = View.GONE

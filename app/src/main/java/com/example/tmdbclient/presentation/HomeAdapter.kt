@@ -11,7 +11,7 @@ import com.example.tmdbclient.databinding.HomeItemBinding
 class HomeAdapter(private val itemClickListener: OnItemClickListener) :
     RecyclerView.Adapter<ViewHolder>() {
 
-    companion object{
+    companion object {
         private const val ROW_NUM = 3
     }
 

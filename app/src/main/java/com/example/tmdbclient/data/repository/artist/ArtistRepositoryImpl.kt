@@ -14,7 +14,6 @@ import io.reactivex.Observable
  * Provides an implementation of the [ArtistRepository] interface for communicating to and from
  * data sources.
  */
-
 class ArtistRepositoryImpl(
     private val remoteDataSource: ArtistRemoteDataSource,
     private val localDataSource: ArtistLocalDataSource,

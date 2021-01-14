@@ -7,6 +7,10 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * This usecase is used to retrieve a list of movies with the correspondent review retrieved by
+ * the id of the movie from [MovieRepository] and it should be used in the correspondent ViewModel
+ */
 class GetMoviesUseCase(private val movieRepository: MovieRepository) {
     fun execute(): Observable<List<Movie>> =
         movieRepository.getMovies().take(1).flatMapIterable { it }.flatMap { movie ->

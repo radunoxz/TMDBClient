@@ -8,7 +8,6 @@ import io.reactivex.Observable
  * This is to be implemented by the domain layer, setting the requirements for the
  * operations that need to be implemented
  */
-
 interface ArtistRepository {
     fun getArtists(): Observable<List<Artist>>
 

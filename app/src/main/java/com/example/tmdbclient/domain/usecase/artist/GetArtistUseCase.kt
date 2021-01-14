@@ -6,6 +6,10 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * This usecase is used to retrieve a list of artists from [ArtistRepository]
+ * and it should be used in the correspondent ViewModel
+ */
 class GetArtistUseCase(private val artistRepository: ArtistRepository) {
     fun execute(): Observable<List<Artist>> =
         artistRepository.getArtists().take(1).flatMapIterable { it }.toList().toObservable()

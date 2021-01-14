@@ -14,7 +14,6 @@ import io.reactivex.Observable
  * Provides an implementation of the [TvShowRepository] interface for communicating to and from
  * data sources.
  */
-
 class TvShowRepositoryImpl(
     private val remoteDataSource: TvShowRemoteDataSource,
     private val localDataSource: TvShowLocalDataSource,

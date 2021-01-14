@@ -11,6 +11,11 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
 
+/**
+ * Provides an implementation of the [MovieRepository] interface for communicating to and from
+ * data sources.
+ */
+
 class MovieRepositoryImpl(
     private val movieRemoteDataSource: MovieRemoteDataSource,
     private val localDataSource: MovieLocalDataSource,

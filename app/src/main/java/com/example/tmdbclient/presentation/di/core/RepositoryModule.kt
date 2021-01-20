@@ -17,9 +17,12 @@ import com.example.tmdbclient.domain.repository.MovieRepository
 import com.example.tmdbclient.domain.repository.TvShowRepository
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(ApplicationComponent::class)
 class RepositoryModule {
     @Provides
     @Singleton

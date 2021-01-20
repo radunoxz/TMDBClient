@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdbclient.R
 import com.example.tmdbclient.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment(), OnItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: HomeAdapter

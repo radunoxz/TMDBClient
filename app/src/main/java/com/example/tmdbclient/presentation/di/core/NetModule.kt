@@ -1,8 +1,11 @@
 package com.example.tmdbclient.presentation.di.core
 
+import com.example.tmdbclient.BuildConfig
 import com.example.tmdbclient.data.api.TMDBService
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,7 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class NetModule(private val baseUrl: String) {
+@InstallIn(ApplicationComponent::class)
+class NetModule {
 
     @Provides
     @Singleton
@@ -20,7 +24,7 @@ class NetModule(private val baseUrl: String) {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)
-            .baseUrl(baseUrl)
+            .baseUrl(BuildConfig.BASE_URL)
             .build()
     }
 

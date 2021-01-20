@@ -5,27 +5,20 @@ import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.view.MenuInflater
-import android.view.Menu
+import android.view.*
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmdbclient.R
 import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.databinding.FragmentMovieBinding
-import com.example.tmdbclient.presentation.di.Injector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MovieFragment : Fragment(), OnItemClickListener {
-    @Inject
-    lateinit var factory: MovieViewModelFactory
-    private lateinit var movieViewModel: MovieViewModel
+    private val movieViewModel: MovieViewModel by viewModels()
     private lateinit var binding: FragmentMovieBinding
     private lateinit var adapter: MovieAdapter
     private lateinit var frontAnim: AnimatorSet
@@ -38,8 +31,6 @@ class MovieFragment : Fragment(), OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        (requireActivity().application as Injector).createMovieSubComponent()
-            .inject(this)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie, container, false)
         frontAnim = AnimatorInflater.loadAnimator(
             requireActivity(),
@@ -66,7 +57,6 @@ class MovieFragment : Fragment(), OnItemClickListener {
     @SuppressLint("CheckResult")
     private fun displayPopularMovies() {
         binding.movieProgressBar.visibility = View.VISIBLE
-        movieViewModel = ViewModelProvider(this, factory).get(MovieViewModel::class.java)
         val responseObservable = movieViewModel.getMovies()
         responseObservable.subscribe(
             { movieList ->

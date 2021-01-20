@@ -9,12 +9,14 @@ import com.example.tmdbclient.domain.repository.ArtistRepository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import javax.inject.Inject
 
 /**
  * Provides an implementation of the [ArtistRepository] interface for communicating to and from
  * data sources.
  */
-class ArtistRepositoryImpl(
+class ArtistRepositoryImpl
+@Inject constructor(
     private val remoteDataSource: ArtistRemoteDataSource,
     private val localDataSource: ArtistLocalDataSource,
     private val cacheDataSource: ArtistCacheDataSource

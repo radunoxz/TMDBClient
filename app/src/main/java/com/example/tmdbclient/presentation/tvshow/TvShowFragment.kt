@@ -2,26 +2,19 @@ package com.example.tmdbclient.presentation.tvshow
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.view.MenuInflater
-import android.view.Menu
+import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmdbclient.R
 import com.example.tmdbclient.databinding.FragmentTvShowBinding
-import com.example.tmdbclient.presentation.di.Injector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TvShowFragment : Fragment() {
-    @Inject
-    lateinit var factory: TvShowViewModelFactory
-    private lateinit var tvShowViewModel: TvShowViewModel
+    private val tvShowViewModel: TvShowViewModel by viewModels()
     private lateinit var adapter: TvShowAdapter
     private lateinit var binding: FragmentTvShowBinding
 
@@ -32,8 +25,6 @@ class TvShowFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tv_show, container, false)
-        (requireActivity().application as Injector).createTvShowSubComponent()
-            .inject(this)
         initRecyclerView()
         return binding.root
     }
@@ -48,7 +39,6 @@ class TvShowFragment : Fragment() {
     @SuppressLint("CheckResult")
     private fun displayPopularTvShows() {
         binding.tvshowProgressBar.visibility = View.VISIBLE
-        tvShowViewModel = ViewModelProvider(this, factory).get(TvShowViewModel::class.java)
         val responseObservable = tvShowViewModel.getTvShows()
         responseObservable.subscribe(
             { tvShowsList ->

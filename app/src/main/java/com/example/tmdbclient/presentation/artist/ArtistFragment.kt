@@ -2,26 +2,19 @@ package com.example.tmdbclient.presentation.artist
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.view.MenuInflater
-import android.view.Menu
+import android.view.*
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmdbclient.R
 import com.example.tmdbclient.databinding.FragmentArtistBinding
-import com.example.tmdbclient.presentation.di.Injector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ArtistFragment : Fragment() {
-    @Inject
-    lateinit var factory: ArtistViewModelFactory
-    private lateinit var artistViewModel: ArtistViewModel
+    private val artistViewModel: ArtistViewModel by viewModels()
     private lateinit var binding: FragmentArtistBinding
     private lateinit var adapter: ArtistAdapter
 
@@ -32,7 +25,6 @@ class ArtistFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_artist, container, false)
-        (requireActivity().application as Injector).createArtistSubComponent().inject(this)
         initRecyclerView()
         return binding.root
     }
@@ -48,7 +40,6 @@ class ArtistFragment : Fragment() {
     @SuppressLint("CheckResult")
     private fun displayArtistList() {
         binding.artistProgressBar.visibility = View.VISIBLE
-        artistViewModel = ViewModelProvider(this, factory).get(ArtistViewModel::class.java)
         artistViewModel.getArtists().subscribe(
             {
                 adapter.setArtistList(it)
@@ -66,7 +57,6 @@ class ArtistFragment : Fragment() {
     @SuppressLint("CheckResult")
     private fun updateArtists() {
         binding.artistProgressBar.visibility = View.VISIBLE
-        artistViewModel = ViewModelProvider(this, factory).get(ArtistViewModel::class.java)
         artistViewModel.updateArtists().subscribe(
             {
                 adapter.setArtistList(it)

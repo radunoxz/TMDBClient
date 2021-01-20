@@ -10,12 +10,14 @@ import com.example.tmdbclient.domain.repository.MovieRepository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import javax.inject.Inject
 
 /**
  * Provides an implementation of the [MovieRepository] interface for communicating to and from
  * data sources.
  */
-class MovieRepositoryImpl(
+class MovieRepositoryImpl
+@Inject constructor(
     private val movieRemoteDataSource: MovieRemoteDataSource,
     private val localDataSource: MovieLocalDataSource,
     private val cacheDataSource: MovieCacheDataSource

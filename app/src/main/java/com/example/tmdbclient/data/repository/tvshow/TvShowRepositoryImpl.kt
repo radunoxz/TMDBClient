@@ -9,12 +9,14 @@ import com.example.tmdbclient.domain.repository.TvShowRepository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import javax.inject.Inject
 
 /**
  * Provides an implementation of the [TvShowRepository] interface for communicating to and from
  * data sources.
  */
-class TvShowRepositoryImpl(
+class TvShowRepositoryImpl
+@Inject constructor(
     private val remoteDataSource: TvShowRemoteDataSource,
     private val localDataSource: TvShowLocalDataSource,
     private val cachedDataSource: TvShowCacheDataSource

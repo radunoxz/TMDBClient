@@ -4,11 +4,13 @@ import com.example.tmdbclient.data.db.MovieDao
 import com.example.tmdbclient.data.model.movie.Movie
 import com.example.tmdbclient.data.repository.movie.datasource.MovieLocalDataSource
 import io.reactivex.Flowable
+import javax.inject.Inject
 
 /**
  * This class is a implementation of the Local Data Source
  */
-class MovieLocalDataSourceImpl(private val movieDao: MovieDao) : MovieLocalDataSource {
+class MovieLocalDataSourceImpl
+@Inject constructor(private val movieDao: MovieDao) : MovieLocalDataSource {
     override fun getMovies(): Flowable<List<Movie>> {
         return movieDao.getMovies()
     }

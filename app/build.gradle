@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'io.gitlab.arturbosch.detekt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -70,6 +71,7 @@ dependencies {
     def glide_version = "4.11.0"
     def nav_version = "2.3.2"
     def detekt_version = "1.15.0"
+    def hilt_version = "2.28-alpha"
 
     // Detekt
     detekt("io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version")
@@ -107,6 +109,11 @@ dependencies {
     // Dagger
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
+    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"

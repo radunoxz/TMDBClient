@@ -8,9 +8,12 @@ import com.example.tmdbclient.data.db.TMDBDatabase
 import com.example.tmdbclient.data.db.TvShowDao
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(ApplicationComponent::class)
 class DataBaseModule {
     @Provides
     @Singleton

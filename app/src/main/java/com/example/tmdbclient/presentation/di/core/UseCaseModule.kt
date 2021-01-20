@@ -11,8 +11,11 @@ import com.example.tmdbclient.domain.usecase.tvshow.GetTvShowsUseCase
 import com.example.tmdbclient.domain.usecase.tvshow.UpdateTvShowsUseCase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
 @Module
+@InstallIn(ApplicationComponent::class)
 class UseCaseModule {
     @Provides
     fun provideGetMovieUseCase(movieRepository: MovieRepository): GetMoviesUseCase =
